@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Playground Booking</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1e8449;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #1e8449;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f6f3;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>WELCOME TO THE PLAYGROUND</h2>
+    <p>Where Energy Meets You – High Energy, Good Life</p>
+</header>
+
+<div class="container">
+
+    <label>Name of the Player (Main Customer)</label>
+    <input type="text" id="playerName" placeholder="Enter your name">
+
+    <label>Date on which you want to play</label>
+    <input type="date" id="playDate">
+
+    <label>Preferred Time Slot (2 Hours)</label>
+    <select id="timeSlot">
+        <option value="">-- Select Slot --</option>
+        <option>7 AM - 9 AM</option>
+        <option>9 AM - 11 AM</option>
+        <option>11 AM - 1 PM</option>
+        <option>1 PM - 3 PM</option>
+    </select>
+
+    <button onclick="submitBooking()">Submit Booking Request</button>
+
+    <div class="message" id="resultMessage"></div>
+
+</div>
+
+<script>
+    function submitBooking() {
+
+        let name = document.getElementById("playerName").value;
+        let date = document.getElementById("playDate").value;
+        let slot = document.getElementById("timeSlot").value;
+
+        if (name === "" || date === "" || slot === "") {
+            alert("Please fill all details");
+            return;
+        }
+
+        document.getElementById("resultMessage").style.display = "block";
+        document.getElementById("resultMessage").innerHTML =
+            "<b>Thank you, " + name + "!</b><br>" +
+            "Your request for <b>" + date + "</b> during <b>" + slot + "</b> has been received.<br><br>" +
+            "📌 Booking is available only for the next 7 days.<br>" +
+            "📌 If the slot is already booked, we will inform you shortly.";
+    }
+</script>
+
+</body>
+</html>
