@@ -35,7 +35,7 @@
             margin-top: 15px;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
@@ -71,47 +71,65 @@
 
 <div class="container">
 
-    <label>Name of the Player (Main Customer)</label>
-    <input type="text" id="playerName" placeholder="Enter your name">
+    <label>Name of Player</label>
+    <input type="text" id="name">
 
-    <label>Date on which you want to play</label>
-    <input type="date" id="playDate">
+    <label>Mobile / Email</label>
+    <input type="text" id="contact">
 
-    <label>Preferred Time Slot (2 Hours)</label>
-    <select id="timeSlot">
-        <option value="">-- Select Slot --</option>
+    <label>Date you want to play</label>
+    <input type="date" id="date">
+
+    <label>Time Slot (2 Hours)</label>
+    <select id="slot">
+        <option value="">Select Slot</option>
         <option>7 AM - 9 AM</option>
         <option>9 AM - 11 AM</option>
         <option>11 AM - 1 PM</option>
         <option>1 PM - 3 PM</option>
     </select>
 
-    <button onclick="submitBooking()">Submit Booking Request</button>
+    <label>Remarks</label>
+    <textarea id="remarks"></textarea>
 
-    <div class="message" id="resultMessage"></div>
+    <button onclick="submitBooking()">Submit Booking</button>
+
+    <div class="message" id="msg"></div>
 
 </div>
 
 <script>
-    function submitBooking() {
+function submitBooking() {
 
-        let name = document.getElementById("playerName").value;
-        let date = document.getElementById("playDate").value;
-        let slot = document.getElementById("timeSlot").value;
+    let data = {
+        name: document.getElementById("name").value,
+        contact: document.getElementById("contact").value,
+        date: document.getElementById("date").value,
+        slot: document.getElementById("slot").value,
+        remarks: document.getElementById("remarks").value
+    };
 
-        if (name === "" || date === "" || slot === "") {
-            alert("Please fill all details");
-            return;
-        }
-
-        document.getElementById("resultMessage").style.display = "block";
-        document.getElementById("resultMessage").innerHTML =
-            "<b>Thank you, " + name + "!</b><br>" +
-            "Your request for <b>" + date + "</b> during <b>" + slot + "</b> has been received.<br><br>" +
-            "📌 Booking is available only for the next 7 days.<br>" +
-            "📌 If the slot is already booked, we will inform you shortly.";
+    if (!data.name || !data.contact || !data.date || !data.slot) {
+        alert("Please fill all required fields");
+        return;
     }
+
+    fetch("https://script.google.com/macros/s/AKfycbwaJRG2KXZ_iFRAlmM0l6cT9pxWVFParBI9_9xMDeRW30u5C90q02mLsQEy8Zp8n3R0mA/exec", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+    .then(response => response.text())
+    .then(result => {
+        document.getElementById("msg").style.display = "block";
+        document.getElementById("msg").innerHTML =
+            "✅ Thank you <b>" + data.name + "</b>. Your booking request has been received.";
+    })
+    .catch(error => {
+        alert("Error submitting booking");
+    });
+}
 </script>
 
 </body>
 </html>
+
